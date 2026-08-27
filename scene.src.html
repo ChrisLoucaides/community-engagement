@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Limit Break — Join Our Community</title>
+<style>
+/* ============================================================
+   LIMIT BREAK — Community promo (OBS full-screen browser source)
+   Brand: cyan #00D4FF -> magenta #EE00CC on #08081A
+   Display type: Barlow Condensed (embedded, latin subset)
+
+   Designed for a 1920x1080 browser source. Every measurement is
+   in rem, and 1rem is pinned to the smaller of 1/192 viewport
+   width or 1/108 viewport height, so the whole composition
+   scales cleanly to any source size (1rem = 10px at 1920x1080).
+   ============================================================ */
+
+@font-face {
+  font-family: 'Barlow Condensed';
+  font-style: normal;
+  font-weight: 700;
+  font-display: block;
+  src: url(__FONT_700__) format('woff2');
+}
+@font-face {
+  font-family: 'Barlow Condensed';
+  font-style: normal;
+  font-weight: 800;
+  font-display: block;
+  src: url(__FONT_800__) format('woff2');
+}
+@font-face {
+  font-family: 'Barlow Condensed';
+  font-style: normal;
+  font-weight: 900;
+  font-display: block;
+  src: url(__FONT_900__) format('woff2');
+}
+
+:root {
+  --cyan:    #00D4FF;
+  --magenta: #EE00CC;
+  --ink:     #08081A;
+  --ink-2:   #060614;
+  --display: 'Barlow Condensed', 'Oswald', 'Arial Narrow', Impact, sans-serif;
+  --body:    -apple-system, 'Segoe UI', Inter, Roboto, sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  /* 1rem = 10px on a 1920x1080 source; scales with the source. */
+  font-size: min(0.5208333vw, 0.9259259vh);
+}
+
+html, body {
+  width: 100%; height: 100%;
+  background: var(--ink);
+  overflow: hidden;
+  cursor: none;
+}
+
+body {
+  font-family: var(--display);
+  color: #fff;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* =============================================================
+   BACKGROUND STACK
+   ============================================================= */
+#bg { position: fixed; inset: 0; z-index: 0; background: var(--ink); }
+
+.glow {
+  position: absolute;
+  width: 90rem; height: 90rem;
+  border-radius: 50%;
+  filter: blur(14rem);
+  opacity: 0;
+  will-change: transform, opacity;
+}
+.glow--cyan {
+  background: rgba(0, 212, 255, 0.16);
+  top: -26rem; left: -20rem;
+  animation:
+    fade-glow 2.2s .1s ease-out forwards,
+    drift-a 23s 2s ease-in-out infinite alternate;
+}
+.glow--magenta {
+  background: rgba(238, 0, 204, 0.14);
+  bottom: -30rem; right: -22rem;
+  animation:
+    fade-glow 2.2s .35s ease-out forwards,
+    drift-b 27s 2s ease-in-out infinite alternate;
+}
+@keyframes fade-glow { to { opacity: 1; } }
+@keyframes drift-a {
+  from { transform: translate3d(0, 0, 0)            scale(1);    }
+  to   { transform: translate3d(6rem, 4rem, 0)      scale(1.12); }
+}
+@keyframes drift-b {
+  from { transform: translate3d(0, 0, 0)            scale(1.08); }
+  to   { transform: translate3d(-7rem, -5rem, 0)    scale(1);    }
+}
+
+.core-glow {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 78rem 50rem at 50% 46%,
+              rgba(0, 212, 255, 0.08) 0%,
+              rgba(120, 0, 220, 0.04) 45%,
+              transparent 72%);
+  opacity: 0;
+  animation: fade-glow 2.4s .2s ease-out forwards, core-breathe 9s 2.5s ease-in-out infinite;
+}
+@keyframes core-breathe {
+  0%, 100% { transform: scale(1);    }
+  50%      { transform: scale(1.05); }
+}
+
+.grid {
+  position: absolute; inset: -8rem;
+  background-image:
+    repeating-linear-gradient(0deg,  transparent, transparent 5.9rem, rgba(255,255,255,0.028) 5.9rem, rgba(255,255,255,0.028) 6rem),
+    repeating-linear-gradient(90deg, transparent, transparent 5.9rem, rgba(255,255,255,0.028) 5.9rem, rgba(255,255,255,0.028) 6rem);
+  -webkit-mask-image: radial-gradient(ellipse 100rem 62rem at 50% 50%, #000 25%, transparent 78%);
+          mask-image: radial-gradient(ellipse 100rem 62rem at 50% 50%, #000 25%, transparent 78%);
+  opacity: 0;
+  animation: fade-grid 2.6s .3s ease-out forwards, grid-drift 34s linear infinite;
+  will-change: transform;
+}
+@keyframes fade-grid { to { opacity: 1; } }
+@keyframes grid-drift {
+  from { transform: translate3d(0, 0, 0);       }
+  to   { transform: translate3d(6rem, 6rem, 0); }
+}
+
+#dust { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; animation: fade-glow 3s .5s ease-out forwards; }
+
+.scan {
+  position: absolute; inset: 0;
+  background-image: repeating-linear-gradient(
+      0deg, transparent, transparent 0.3rem,
+      rgba(0, 212, 255, 0.035) 0.3rem, rgba(0, 212, 255, 0.035) 0.4rem);
+}
+.vignette {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 120rem 78rem at 50% 50%, transparent 40%, rgba(4, 4, 14, 0.72) 100%),
+    linear-gradient(180deg, rgba(4,4,14,0.35) 0%, transparent 18%, transparent 82%, rgba(4,4,14,0.45) 100%);
+}
+
+/* =============================================================
+   CORNER BRACKETS
+   ============================================================= */
+#frame { position: fixed; inset: 4.4rem; z-index: 2; pointer-events: none; }
+
+.c { position: absolute; width: 7rem; height: 7rem; opacity: 0; animation: bracket-in 1.1s .9s cubic-bezier(.2,.8,.3,1) forwards; }
+.c::before, .c::after { content: ''; position: absolute; background: var(--cyan); box-shadow: 0 0 1.2rem rgba(0, 212, 255, 0.55); }
+.c::before { width: 100%; height: 0.25rem; }
+.c::after  { width: 0.25rem; height: 100%; }
+
+.c.tl { top: 0;    left: 0;  }
+.c.tr { top: 0;    right: 0; transform: rotate(90deg);  animation-delay: 1.0s; }
+.c.bl { bottom: 0; left: 0;  transform: rotate(-90deg); animation-delay: 1.0s; }
+.c.br { bottom: 0; right: 0; transform: rotate(180deg); animation-delay: 1.1s; }
+
+.c.br::before, .c.br::after, .c.bl::before, .c.bl::after {
+  background: var(--magenta);
+  box-shadow: 0 0 1.2rem rgba(238, 0, 204, 0.5);
+}
+
+@keyframes bracket-in { to { opacity: 0.55; } }
+
+/* =============================================================
+   CONTENT
+   ============================================================= */
+#stage {
+  position: relative; z-index: 3;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  text-align: center;
+}
+
+/* ---- Brand mark ---- */
+.brand-wrap {
+  opacity: 0;
+  animation: rise-in 1.1s .1s cubic-bezier(.2,.75,.3,1) forwards;
+}
+.brand-logo {
+  display: block;
+  width: 26rem;
+  filter:
+    drop-shadow(0 0 2.2rem rgba(0, 212, 255, 0.32))
+    drop-shadow(0 0 4.4rem rgba(238, 0, 204, 0.18));
+}
+
+/* ---- Kicker ---- */
+.kicker {
+  margin-top: 2rem;
+  font-family: var(--body);
+  font-weight: 600;
+  font-size: 2rem;
+  letter-spacing: 0.32em;
+  text-indent: 0.32em;
+  text-transform: uppercase;
+  background-image: linear-gradient(100deg, var(--cyan) 8%, #6E7CFF 46%, var(--magenta) 84%);
+  -webkit-background-clip: text;
+          background-clip: text;
+  -webkit-text-fill-color: transparent;
+          color: transparent;
+  opacity: 0;
+  animation: rise-in 1.1s .3s cubic-bezier(.2,.75,.3,1) forwards;
+}
+
+/* ---- Headline ---- */
+.headline {
+  position: relative;
+  margin-top: 1.6rem;
+  font-weight: 800;
+  font-size: 8.6rem;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  white-space: nowrap;
+
+  background-image: linear-gradient(180deg, #FFFFFF 0%, #FFFFFF 42%, #BBBFE0 100%);
+  -webkit-background-clip: text;
+          background-clip: text;
+  -webkit-text-fill-color: transparent;
+          color: transparent;
+
+  filter:
+    drop-shadow(0 0 3rem rgba(0, 212, 255, 0.30))
+    drop-shadow(0 0.5rem 1.4rem rgba(0, 0, 0, 0.65));
+
+  opacity: 0;
+  animation: rise-in 1.1s .45s cubic-bezier(.2,.75,.3,1) forwards;
+}
+.headline::after {
+  content: attr(data-text);
+  position: absolute;
+  left: 0; top: 0; width: 100%;
+  background-image: linear-gradient(104deg,
+      transparent 38%,
+      rgba(255, 255, 255, 0.35) 44%,
+      rgba(224, 250, 255, 0.95) 48.5%,
+      #FFFFFF 50%,
+      rgba(255, 226, 250, 0.95) 51.5%,
+      rgba(255, 255, 255, 0.35) 56%,
+      transparent 62%);
+  background-size: 260% 100%;
+  background-repeat: no-repeat;
+  -webkit-background-clip: text;
+          background-clip: text;
+  -webkit-text-fill-color: transparent;
+          color: transparent;
+  animation: sheen 7s 2.2s ease-in-out infinite;
+  will-change: background-position;
+}
+@keyframes sheen {
+  0%        { background-position: 170% 0; }
+  26%, 100% { background-position: -70% 0; }
+}
+
+/* ---- Gradient rule ---- */
+.rule {
+  position: relative;
+  width: 22rem; height: 0.3rem;
+  margin-top: 2.8rem;
+  border-radius: 0.15rem;
+  background: linear-gradient(90deg, rgba(0,212,255,0) 0%, var(--cyan) 18%, var(--magenta) 82%, rgba(238,0,204,0) 100%);
+  overflow: hidden;
+  opacity: 0;
+  animation: rule-in 1s .75s cubic-bezier(.2,.8,.3,1) forwards;
+}
+.rule::after {
+  content: '';
+  position: absolute; top: 0; left: 0;
+  width: 6rem; height: 100%;
+  background: linear-gradient(90deg, transparent, #FFFFFF, transparent);
+  filter: blur(0.15rem);
+  animation: spark 7s 2.6s ease-in-out infinite;
+}
+@keyframes rule-in { to { opacity: 1; } }
+@keyframes spark {
+  0%        { transform: translate3d(-6rem, 0, 0); opacity: 0; }
+  6%        { opacity: 1; }
+  22%       { transform: translate3d(22rem, 0, 0); opacity: 0; }
+  100%      { transform: translate3d(22rem, 0, 0); opacity: 0; }
+}
+
+/* ---- Cards row ---- */
+.cards {
+  display: flex;
+  gap: 5.2rem;
+  margin-top: 3.6rem;
+}
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  width: 33rem;
+  padding: 2.6rem 3rem 2.4rem;
+  border-radius: 1.2rem;
+  background: linear-gradient(165deg, rgba(22,22,48,0.92), rgba(8,8,26,0.96));
+  border: 0.16rem solid rgba(255,255,255,0.08);
+  opacity: 0;
+  animation: rise-in 1.1s cubic-bezier(.2,.75,.3,1) forwards;
+}
+.card--cyan {
+  animation-delay: .95s;
+  box-shadow: 0 0 0.16rem rgba(0,212,255,0.7), 0 0 3.2rem rgba(0,212,255,0.28), 0 1.2rem 2.4rem rgba(0,0,0,0.5);
+}
+.card--cyan::before { background: var(--cyan); }
+.card--magenta {
+  animation-delay: 1.1s;
+  box-shadow: 0 0 0.16rem rgba(238,0,204,0.7), 0 0 3.2rem rgba(238,0,204,0.28), 0 1.2rem 2.4rem rgba(0,0,0,0.5);
+}
+.card--magenta::before { background: var(--magenta); }
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: -0.16rem; left: 3rem; right: 3rem;
+  height: 0.16rem;
+}
+
+.card__qr-frame {
+  width: 22rem; height: 22rem;
+  background: #fff;
+  border-radius: 0.5rem;
+  padding: 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0.6rem 1.6rem rgba(0,0,0,0.35);
+}
+.card__qr-frame img {
+  display: block;
+  width: 100%; height: 100%;
+  object-fit: contain;
+}
+
+.card__label {
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: 3rem;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: #fff;
+}
+.card--cyan .card__label { color: var(--cyan); text-shadow: 0 0 1.6rem rgba(0,212,255,0.45); }
+.card--magenta .card__label { color: var(--magenta); text-shadow: 0 0 1.6rem rgba(238,0,204,0.45); }
+
+.card__caption {
+  font-family: var(--body);
+  font-weight: 500;
+  font-size: 1.5rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #9494B8;
+  margin-top: -0.6rem;
+}
+
+/* ---- Shared intro ---- */
+@keyframes rise-in {
+  from { opacity: 0; transform: translate3d(0, 2.6rem, 0); }
+  to   { opacity: 1; transform: translate3d(0, 0, 0);      }
+}
+
+#flash {
+  position: fixed; inset: 0; z-index: 4; pointer-events: none;
+  background: linear-gradient(104deg, transparent 42%, rgba(160, 235, 255, 0.10) 50%, transparent 58%);
+  background-size: 280% 100%;
+  background-repeat: no-repeat;
+  animation: sheen 7s 2.2s ease-in-out infinite;
+}
+</style>
+</head>
+<body>
+
+<div id="bg">
+  <div class="core-glow"></div>
+  <div class="glow glow--cyan"></div>
+  <div class="glow glow--magenta"></div>
+  <div class="grid"></div>
+  <canvas id="dust"></canvas>
+  <div class="scan"></div>
+  <div class="vignette"></div>
+</div>
+
+<div id="frame">
+  <i class="c tl"></i><i class="c tr"></i><i class="c bl"></i><i class="c br"></i>
+</div>
+
+<main id="stage">
+  <div class="brand-wrap"><img class="brand-logo" alt="Limit Break" src="__LOGO_DATA_URI__"></div>
+  <div class="kicker">Smash Bros. Cyprus</div>
+  <h1 class="headline" id="headline" data-text="Join Our Community">Join Our Community</h1>
+  <div class="rule"></div>
+
+  <div class="cards">
+    <div class="card card--cyan">
+      <div class="card__qr-frame"><img alt="Discord QR code" src="__DISCORD_QR_DATA_URI__"></div>
+      <div class="card__label">Discord</div>
+      <div class="card__caption">Scan to join</div>
+    </div>
+    <div class="card card--magenta">
+      <div class="card__qr-frame"><img alt="X (Twitter) QR code" src="__TWITTER_QR_DATA_URI__"></div>
+      <div class="card__label">X · Twitter</div>
+      <div class="card__caption">Scan to follow</div>
+    </div>
+  </div>
+</main>
+
+<div id="flash"></div>
+
+<script>
+(function () {
+  'use strict';
+
+  var q = new URLSearchParams(location.search);
+
+  /* ---- Freeze-frame ---------------------------------------------------
+     ?seek=4000 holds the whole scene at 4000ms and stops it there, so a
+     screenshot gives you a still of the finished composition.
+     ------------------------------------------------------------------- */
+  var SEEK = q.has('seek') ? Math.max(0, parseFloat(q.get('seek')) || 0) : null;
+
+  if (SEEK !== null) {
+    window.addEventListener('load', function () {
+      (document.getAnimations ? document.getAnimations() : []).forEach(function (a) {
+        try { a.currentTime = SEEK; a.pause(); } catch (e) { /* ignore */ }
+      });
+    });
+  }
+
+  /* ---- Particle field -------------------------------------------------
+     Slow embers rising through the frame, additively blended. Deliberately
+     sparse — this sits on screen for minutes at a time and must never pull
+     focus away from the QR codes.
+     ------------------------------------------------------------------- */
+  var canvas = document.getElementById('dust');
+
+  if (q.get('particles') === '0') {
+    canvas.style.display = 'none';
+    return;
+  }
+
+  var ctx = canvas.getContext('2d', { alpha: true });
+  var COUNT = Math.max(0, Math.min(400, parseInt(q.get('particles'), 10) || 70));
+  var particles = [];
+  var w = 0, h = 0, dpr = 1;
+
+  function resize() {
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    w = canvas.clientWidth;
+    h = canvas.clientHeight;
+    canvas.width  = Math.round(w * dpr);
+    canvas.height = Math.round(h * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+
+  function rand(min, max) { return min + Math.random() * (max - min); }
+
+  function spawn(seeded) {
+    var roll = Math.random();
+    var colour = roll < 0.55 ? [0, 212, 255]
+               : roll < 0.88 ? [238, 0, 204]
+               :               [200, 230, 255];
+    return {
+      x: rand(0, w),
+      y: seeded ? rand(0, h) : h + rand(10, 120),
+      r: rand(1.0, 3.6),
+      vy: rand(6, 20),
+      sway: rand(6, 22),
+      swaySpeed: rand(0.15, 0.5),
+      phase: rand(0, Math.PI * 2),
+      alpha: rand(0.24, 0.72),
+      twinkle: rand(0.35, 1.1),
+      colour: colour
+    };
+  }
+
+  function reset() {
+    resize();
+    particles.length = 0;
+    for (var i = 0; i < COUNT; i++) particles.push(spawn(true));
+  }
+
+  function step(dt) {
+    for (var i = 0; i < particles.length; i++) {
+      var p = particles[i];
+      p.y -= p.vy * dt;
+      if (p.y < -20) particles[i] = spawn(false);
+    }
+  }
+
+  function render(t) {
+    ctx.clearRect(0, 0, w, h);
+    ctx.globalCompositeOperation = 'lighter';
+
+    for (var i = 0; i < particles.length; i++) {
+      var p = particles[i];
+
+      var x = p.x + Math.sin(t * p.swaySpeed + p.phase) * p.sway;
+      var a = p.alpha * (0.6 + 0.4 * Math.sin(t * p.twinkle + p.phase));
+
+      if (p.y > h - 90) a *= (h - p.y) / 90;
+      if (p.y < 140)    a *= p.y / 140;
+      if (a <= 0) continue;
+
+      var c = p.colour;
+      var g = ctx.createRadialGradient(x, p.y, 0, x, p.y, p.r * 4);
+      g.addColorStop(0,    'rgba(' + c[0] + ',' + c[1] + ',' + c[2] + ',' + a.toFixed(3) + ')');
+      g.addColorStop(0.35, 'rgba(' + c[0] + ',' + c[1] + ',' + c[2] + ',' + (a * 0.28).toFixed(3) + ')');
+      g.addColorStop(1,    'rgba(' + c[0] + ',' + c[1] + ',' + c[2] + ',0)');
+
+      ctx.fillStyle = g;
+      ctx.beginPath();
+      ctx.arc(x, p.y, p.r * 4, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+
+  var last = 0;
+
+  function frame(now) {
+    var dt = last ? Math.min((now - last) / 1000, 0.1) : 0;
+    last = now;
+    step(dt);
+    render(now / 1000);
+    requestAnimationFrame(frame);
+  }
+
+  function build() {
+    reset();
+    if (SEEK === null) return;
+    var seconds = SEEK / 1000;
+    for (var s = 0; s < Math.round(seconds / 0.05); s++) step(0.05);
+    render(seconds);
+  }
+
+  window.addEventListener('resize', build);
+  build();
+
+  if (SEEK === null) requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>
